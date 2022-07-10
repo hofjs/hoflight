@@ -90,9 +90,7 @@ class PersonDataInput extends HofHtmlElement {
         // Custom Events can be emitted by using emitEvent(name, data) or by
         // dispatchEvent(new CustomEvent(name, { bubbles: true, composed: true, detail: data }))
         return html`
-            ${this.label}:
-            <input value="${this.value}"
-                onchange="${(event) => this.emitEvent("persondatainput", event.target.value)}" />
+            ${this.label}: <input value="${this.value}" onchange="${(event) => this.emitEvent("persondatainput", event.target.value)}" />
         `
     }
 }
@@ -111,10 +109,8 @@ class PersonData extends HofHtmlElement {
         // Event attributes are required to be prefixed with "on" to be recognized
         return html`
             <fieldset>
-                <person-data-input label="Name" value="${this.name}"
-                    onpersondatainput="${(event) => this.name = event.detail}"></person-data-input>
-                <person-data-input label="Age" value="${this.age}"
-                    onpersondatainput="${(event) => this.age = event.detail}"></person-data-input>
+                <person-data-input label="Name" value="${this.name}" onpersondatainput="${(event) => this.name = event.detail}"></person-data-input>
+                <person-data-input label="Age" value="${this.age}" onpersondatainput="${(event) => this.age = event.detail}"></person-data-input>
             </fieldset>
             <div>${this.name} (${this.age})</div>
         `;
@@ -126,7 +122,7 @@ customElements.define("person-data", PersonData)
 
 ## Installation
 
-**Hof.js light can be installed by using npm**.
+**Hof.js can be installed by using npm**.
 
 ```
 npm install @hofjs/hofjs-light
