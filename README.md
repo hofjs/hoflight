@@ -1,6 +1,8 @@
 # Hof.js light
 
-**Hof.js light** is a **modern framework** for the development of **Single Page Applications**. Unlike Hof.js, **Hof.js light is based on LitElement** (https://lit.dev/), but **extends it with typical Hof.js features**. While Hof.js is an experimental framework for trying out innovative new features, Hof.js light aims at building regular applications. Features from Hof.js will be gradually adopted in Hof.js light. **Hof.js light** is an **open source project of Hof University of Applied Sciences** and **was created by Prof. Dr. Walter Kern**.
+**Hof.js light** is a **modern framework** for the development of **Single Page Applications** and a part of the Hof.js project. It is an **open source project of Hof University of Applied Sciences** and **was created by Prof. Dr. Walter Kern**.
+
+Unlike Hof.js (https://github.com/hofjs/hof), **Hof.js light is based on LitElement** (https://lit.dev/), but **extends it with typical Hof.js features**. While Hof.js is an experimental framework for trying out innovative new features, Hof.js light aims at building regular applications. Features from Hof.js will be gradually adopted in Hof.js light.
 
 Contact us if you are a student of Hof University of Applied Sciences and would like to contribute.
 
