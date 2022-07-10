@@ -5,20 +5,24 @@
     <script src="../../lib/nomodule/hof.js"></script>
     <script>
         class CounterComponent extends HofHtmlElement {
-            count = 10
+            count = 10 // observed and exposed as property (external property)
+            _showDetails = false; // observed and not exposed as property (internal state)
+            DOUBLE_FACTOR = 2 // not observed and not exposed as property (constant value)
 
-            get doubled() { return this.count * 2; }
+            get doubled() { return this.count * this.DOUBLE_FACTOR; } // derived and exposed as readonly property (external readonly property)
 
-            increment() {
-                this.count++;
+            toggleDetails() {
+                this._showDetails = !this._showDetails;
             }
 
             templates() {
                 return html`
-                    <div>First rendered: ${new Date()}</div>
-                    <button onclick="${this.increment}">++</button>
+                    <div>Count: ${this.count}</div>
+                    
+                    <button onclick="${() => this.count++}">++</button>
+                    <button onclick="${this.toggleDetails}">Details</button>
 
-                    <ul>
+                    <ul style="display: ${this._showDetails ? "" : "none"}">
                         <li>Count: ${this.count}</li>
                         <li>Doubled + 1: ${this.doubled + 1}</li>
                     </ul>
@@ -30,7 +34,7 @@
 </head>
 <body>
     <h1>Counter app</h1>
-    <counter-component></counter-component>
+    <counter-component id="t1"></counter-component>
     <counter-component count="20"></counter-component>
 </body>
 </html>
