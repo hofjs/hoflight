@@ -9,7 +9,7 @@
             _showDetails = false; // observed and not exposed as property (internal state)
             DOUBLE_FACTOR = 2 // not observed and not exposed as property (constant value)
 
-            get doubled() { return this.count * this.DOUBLE_FACTOR; } // derived and exposed as readonly property (external readonly property)
+            get doubled() { return this.count * this.DOUBLE_FACTOR; } // derived property (readonly property)
 
             toggleDetails() {
                 this._showDetails = !this._showDetails;
