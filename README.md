@@ -122,7 +122,7 @@ customElements.define("person-data", PersonData)
 
 ## Installation
 
-**Hof.js can be installed by using npm**.
+**Hof.js light can be installed by using npm**.
 
 ```
 npm install @hofjs/hofjs-light
