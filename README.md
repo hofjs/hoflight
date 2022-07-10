@@ -34,7 +34,7 @@ class CounterComponent extends HofHtmlElement {
     _showDetails = false; // observed and not exposed as property (internal state)
     DOUBLE_FACTOR = 2 // not observed and not exposed as property (constant value)
 
-    get doubled() { return this.count * this.DOUBLE_FACTOR; } // derived and exposed as readonly property (external readonly property)
+    get doubled() { return this.count * this.DOUBLE_FACTOR; } // derived property (readonly property)
 
     toggleDetails() {
         this._showDetails = !this._showDetails;
@@ -87,10 +87,12 @@ class PersonDataInput extends HofHtmlElement {
     }
 
     templates() {
-        // Custom Events can be emitted by using emitEvent(eventName, eventDetails) or by
-        // using this.dispatchEvent(new CustomEvent(eventName, { bubbles: true, composed: true, detail: eventDetails }))
+        // Custom Events can be emitted by using emitEvent(name, data) or by
+        // dispatchEvent(new CustomEvent(name, { bubbles: true, composed: true, detail: data }))
         return html`
-            ${this.label}: <input value="${this.value}" onchange="${(event) => this.emitEvent("persondatainput", event.target.value)}" />
+            ${this.label}:
+            <input value="${this.value}"
+                onchange="${(event) => this.emitEvent("persondatainput", event.target.value)}" />
         `
     }
 }
@@ -109,8 +111,10 @@ class PersonData extends HofHtmlElement {
         // Event attributes are required to be prefixed with "on" to be recognized
         return html`
             <fieldset>
-                <person-data-input label="Name" value="${this.name}" onpersondatainput="${(event) => this.name = event.detail}"></person-data-input>
-                <person-data-input label="Age" value="${this.age}" onpersondatainput="${(event) => this.age = event.detail}"></person-data-input>
+                <person-data-input label="Name" value="${this.name}"
+                    onpersondatainput="${(event) => this.name = event.detail}"></person-data-input>
+                <person-data-input label="Age" value="${this.age}"
+                    onpersondatainput="${(event) => this.age = event.detail}"></person-data-input>
             </fieldset>
             <div>${this.name} (${this.age})</div>
         `;
@@ -122,7 +126,7 @@ customElements.define("person-data", PersonData)
 
 ## Installation
 
-**Hof.js can be installed by using npm**.
+**Hof.js light can be installed by using npm**.
 
 ```
 npm install @hofjs/hofjs-light
