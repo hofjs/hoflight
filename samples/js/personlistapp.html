@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Personlist app</title>
+    <script src="../../lib/nomodule/hof.js"></script>
+    <script>
+        class Person {
+            constructor(name = "", age = "") {
+                this.id = (name && age) ? Person.counter++ : "";
+                this.name = name;
+                this.age = age;
+            }
+
+            static counter = 1;
+        }
+    </script>
+    <script>
+        class PersonDataInput extends HofHtmlElement {
+            constructor() {
+                super("label");
+            }
+
+            styles = css`
+                input { color: blue; }
+            `;
+
+            test(e) {
+                this.dispatchEvent(new CustomEvent('change', { bubbles: true, composed: true, detail: e.target.value }))
+            }
+
+            templates() {
+                return html`
+                    ${this.label}: <input value="${this.value}" onchange="${this.test}" />
+                `
+            }
+        }
+        
+        customElements.define("person-data-input", PersonDataInput)
+
+        class PersonDataList extends HofHtmlElement {
+            // Property
+            persons = [];
+
+            // Helper Function
+            getBirthday(person) {
+                let birthday = new Date();
+                birthday.setFullYear(birthday.getFullYear() - person.age);
+
+                return birthday.toLocaleDateString();
+            }
+
+            templates() {
+                return html`
+                    ${this.persons.map(person => html`
+                        <li>
+                            ${person.name} - ${person.age} years (birthday: ${this.getBirthday(person)})
+                            [<a href="#" onclick="${() => this.emitEvent('edititem', person)}">Edit</a>]
+                            [<a href="#" onclick="${() => this.emitEvent('deleteitem', person)}">Delete</a>]
+                            
+                        </li>`
+                )}`;
+            }
+        }
+
+        customElements.define("person-data-list", PersonDataList)
+
+        class PersonDataInfo extends HofHtmlElement {
+            value = [];
+
+            templates() {
+                return html`
+                    <br/><br/>Person Info
+                    <li>First Person: ${(this.value[0]?.name || "-<b>Hi</b>") + " (" + (this.value[0]?.age || "") + ")"}</li>
+                    <li>Last Person: ${(this.value[this.value.length-1]?.name ?? "-") + " (" + (this.value[this.value.length-1]?.age ?? "") + ")"}</li>
+                `;
+            }
+        }
+
+        customElements.define("person-data-info", PersonDataInfo)
+
+        class PersonData extends HofHtmlElement {
+            selected = new Person();
+            persons = [new Person("Alex", 21), new Person("Chris", 19), new Person("Mike", 19)];
+
+            changeName(event) { this.selected.name = event.detail; this.selected = {...this.selected} }
+            changeAge(event) { this.selected.age = event.detail; this.selected = {...this.selected} }
+
+            create() { this.selected = new Person(); }
+            edit(event) {  this.selected = { ...event.detail }; } // Copy object to avoid live update on text change
+            remove(event) { this.persons = this.persons.filter(p => p.id != event.detail.id); this.create(); }
+            save() {
+                const person = new Person(this.selected.name, this.selected.age);
+                
+                if (this.selected.id) // Existing person?
+                    this.persons = this.persons.map(p => (p.id == this.selected.id) ? person : p);
+                else
+                    this.persons = [...this.persons, person];
+
+                this.create();
+            }
+            
+            templates() {
+                return html`
+                    <fieldset>
+                        <person-data-input label="Name" value="${this.selected.name}" onchange="${(event) => this.changeName(event)}"></person-data-input>
+                        <person-data-input label="Age" value="${this.selected.age}" onchange="${(event) => this.changeAge(event)}"></person-data-input>
+                        <button onclick="${this.save}">Speichern</button>
+                    </fieldset>                    
+                    
+                    ${this.persons.length} persons in list
+                    <person-data-list persons="${this.persons}" onedititem="${this.edit}" ondeleteitem="${this.remove}"></person-data-list>
+                    
+                    <a href="#" onclick="${this.create}">Neu</a>
+
+                    <person-data-info value="${this.persons}"></person-data-info>  
+                `;
+            }
+        }
+
+        customElements.define("person-data", PersonData)
+    </script>
+</head>
+<body>
+    <h1>Personlist app</h1>
+    <person-data></person-data>
+</body>
+</html>

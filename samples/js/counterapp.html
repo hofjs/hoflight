@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Counter app</title>
+    <script src="../../lib/nomodule/hof.js"></script>
+    <script>
+        class CounterComponent extends HofHtmlElement {
+            count = 10
+
+            get doubled() { return this.count * 2; }
+
+            increment() {
+                this.count++;
+            }
+
+            templates() {
+                return html`
+                    <div>First rendered: ${new Date()}</div>
+                    <button onclick="${this.increment}">++</button>
+
+                    <ul>
+                        <li>Count: ${this.count}</li>
+                        <li>Doubled + 1: ${this.doubled + 1}</li>
+                    </ul>
+                `;
+            }
+        }
+        customElements.define("counter-component", CounterComponent)
+    </script>
+</head>
+<body>
+    <h1>Counter app</h1>
+    <counter-component></counter-component>
+    <counter-component count="20"></counter-component>
+</body>
+</html>
