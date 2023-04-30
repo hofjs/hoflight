@@ -21,9 +21,8 @@ export abstract class HofHtmlElement extends LitElement {
 
       // Delete instance properties and assign their old values to observed static properties
       // (instance properties interfere with static properties so they have to be removed)
-      for (const propName of Object.getOwnPropertyNames(this).filter(p => !HofHtmlElement.PARENT_PROPERTIES.includes(p))) {
+      for (const propName of Object.getOwnPropertyNames(this).filter(p => !HofHtmlElement.PARENT_PROPERTIES.includes(p)))
         this[propName] = this._removeProperty(propName);
-      }
   
       // Render based on initialized values
       this._initialized = true;
